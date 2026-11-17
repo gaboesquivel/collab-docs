@@ -1,5 +1,5 @@
-// Creates (or resets the password of) the demo accounts. There is no sign-up;
-// this script is the only way accounts come into existence.
+// Creates (or resets the password of) the ready-made demo accounts. Other
+// @demo.test accounts are created on their first sign-in.
 import { neon } from "@neondatabase/serverless";
 import { hash } from "bcryptjs";
 import { config } from "dotenv";

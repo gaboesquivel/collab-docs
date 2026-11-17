@@ -199,7 +199,10 @@ export const shareDocument = async (
     .where(eq(users.email, email))
     .limit(1);
   if (!person) {
-    return { error: `There's no account for ${email}.`, ok: false };
+    return {
+      error: `There's no account for ${email} yet. They need to sign in once first.`,
+      ok: false,
+    };
   }
 
   const inserted = await db

@@ -21,7 +21,7 @@ Vercel Functions now support WebSockets (newly; the docs call it beta). Connecti
 
 ## Access control
 
-- Accounts come only from a seed script; there is no sign-up route. The demo accounts share a static password that is public on purpose (shown on the sign-in page), stored hashed. Sign-in still separates users, so per-document access is enforced between them.
+- Only `@demo.test` addresses can sign in. The first sign-in with a new address creates the account with the password used; after that the same password is required. Passwords are stored hashed. Three ready-made accounts (Alice, Bob, Carol) come from the seed script with a public password, `demo1234`. Sign-in still separates users, so per-document access is enforced between them.
 - Every read and write of a document checks on the server that the user is the owner or has been shared it. Hiding a document in the UI is not access control.
 - A share is a permission record (document, user); every share grants edit access. There are no link-based or public tokens.
 

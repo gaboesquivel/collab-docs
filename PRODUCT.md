@@ -25,7 +25,7 @@ Every requirement in the brief is on this path. It is observed by walking throug
 
 ## Scope
 
-- Sign in with one of a few pre-made demo accounts. There is no sign-up.
+- Sign in with any `@demo.test` email. The first sign-in creates the account with the password used; after that, the same password is required. Three ready-made accounts exist for quick demos.
 - Document list with "My documents" and "Shared with me".
 - Create, rename, open and edit documents with bold, italic, underline, headings, and bulleted and numbered lists.
 - Autosave with a visible save status, and a warning before leaving with unsaved changes.
@@ -40,7 +40,7 @@ Every requirement in the brief is on this path. It is observed by walking throug
 - **Keeping uploaded originals:** the document is a converted copy; storing files adds work for no user benefit at this scope.
 - **PDF and legacy .doc import:** extraction is unreliable, and a messy import makes the app look broken.
 - **Public links, invites to people without accounts, access requests:** sharing between existing users is enough to prove the model.
-- **Sign-up and account management:** a few demo accounts are enough to show sharing between two users and to test it.
+- **Real sign-up and account management** (verification, password reset, profiles): creating a demo account on first sign-in is enough to show and test sharing between users.
 - **Read-only viewer role:** every share grants edit access; a second role adds permission logic without changing the core path.
 - **Comments, version history, export, folders:** each is a feature of its own and none is on the core path.
 - **AI features in the app:** the "AI-native" criterion is about how the work is done, which the process and these documents show.

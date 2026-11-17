@@ -25,8 +25,11 @@ const LoginPage = async () => {
         <CardHeader>
           <CardTitle>Sign in to Docs</CardTitle>
           <CardDescription>
-            Use one of the demo accounts: alice@demo.test, bob@demo.test or
-            carol@demo.test. The password for all three is{" "}
+            Sign in with any email ending in{" "}
+            <span className="text-foreground font-medium">@demo.test</span>. The
+            first time, any password creates the account; after that, use the
+            same password. Ready-made accounts: alice, bob and carol, with
+            password{" "}
             <span className="text-foreground font-medium">demo1234</span>.
           </CardDescription>
         </CardHeader>

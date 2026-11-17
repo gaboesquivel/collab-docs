@@ -6,7 +6,7 @@ A lightweight, browser-based document workspace: write formatted documents, impo
 
 ## Try it
 
-Sign in with one of the demo accounts: `alice@demo.test`, `bob@demo.test` or `carol@demo.test`. The password for all three is `demo1234`. There is no sign-up.
+Sign in with any email ending in `@demo.test`. The first sign-in with a new address creates the account with whatever password you type; after that, the same password is required. Ready-made accounts: `alice@demo.test`, `bob@demo.test` and `carol@demo.test`, all with password `demo1234`.
 
 The path that shows everything:
 
@@ -29,7 +29,7 @@ The product direction, scope and non-goals are in [PRODUCT.md](PRODUCT.md), and 
 
 - **Shared access, not live co-editing.** Real-time editing was the riskiest feature and the brief doesn't need it; version checks prevent lost edits instead.
 - **Import converts and discards the original**, like opening a Word file in Google Docs. Conversion goes through the editor's own schema, which also strips anything unsafe.
-- **Demo accounts only**, with hashed passwords and a signed session cookie, so access control is real on a public URL without building sign-up.
+- **Demo accounts, created on first sign-in.** Any `@demo.test` address works and the first password used becomes its password, so testers can make as many users as they need without a sign-up form. Passwords are hashed and sessions are a signed cookie, so access control is real on a public URL.
 - **Free, open-source dependencies only:** Next.js, Tiptap core, mammoth, marked, Drizzle, shadcn/ui; hosted on Vercel Hobby with Neon Free Postgres.
 
 ## Develop
