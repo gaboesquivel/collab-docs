@@ -15,15 +15,18 @@ const DEMO_USERS = [
   { email: "carol@demo.test", name: "Carol" },
 ];
 
+// Public on purpose: these are demo accounts, and the password is shown on
+// the sign-in page so anyone with the URL can try the app.
+const DEMO_PASSWORD = "demo1234";
+
 const main = async () => {
   const url = process.env.DATABASE_URL;
-  const password = process.env.DEMO_PASSWORD;
-  if (!(url && password)) {
-    throw new Error("DATABASE_URL and DEMO_PASSWORD must be set in .env.local");
+  if (!url) {
+    throw new Error("DATABASE_URL must be set in .env.local");
   }
 
   const db = drizzle(neon(url));
-  const passwordHash = await hash(password, 10);
+  const passwordHash = await hash(DEMO_PASSWORD, 10);
 
   await Promise.all(
     DEMO_USERS.map((user) =>

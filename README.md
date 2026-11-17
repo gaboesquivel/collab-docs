@@ -6,7 +6,7 @@ A lightweight, browser-based document workspace: write formatted documents, impo
 
 ## Try it
 
-Sign in with one of the demo accounts: `alice@demo.test`, `bob@demo.test` or `carol@demo.test`. They share one password, kept out of the repo as the `DEMO_PASSWORD` environment variable in Vercel (`vercel env pull` puts it in `.env.local`). There is no sign-up.
+Sign in with one of the demo accounts: `alice@demo.test`, `bob@demo.test` or `carol@demo.test`. The password for all three is `demo1234`. There is no sign-up.
 
 The path that shows everything:
 

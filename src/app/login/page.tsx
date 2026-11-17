@@ -26,7 +26,8 @@ const LoginPage = async () => {
           <CardTitle>Sign in to Docs</CardTitle>
           <CardDescription>
             Use one of the demo accounts: alice@demo.test, bob@demo.test or
-            carol@demo.test.
+            carol@demo.test. The password for all three is{" "}
+            <span className="text-foreground font-medium">demo1234</span>.
           </CardDescription>
         </CardHeader>
         <CardContent>
