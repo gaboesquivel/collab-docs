@@ -1,21 +1,18 @@
 import { desc, eq } from "drizzle-orm";
-import { FileTextIcon } from "lucide-react";
+import { FileTextIcon, PlusIcon } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { createDocument } from "@/app/documents/actions";
 import { AppHeader } from "@/components/app-header";
 import { ImportButton } from "@/components/import-button";
+import { LocalTime } from "@/components/local-time";
+import { Button } from "@/components/ui/button";
 import { db } from "@/db";
 import { documents } from "@/db/schema";
 import { requireUser } from "@/lib/auth";
 
 export const metadata: Metadata = { title: "My documents" };
-
-const formatUpdated = (date: Date) =>
-  new Intl.DateTimeFormat("en", {
-    dateStyle: "medium",
-    timeStyle: "short",
-  }).format(date);
 
 const HomePage = async () => {
   const user = await requireUser();
@@ -37,7 +34,15 @@ const HomePage = async () => {
           <h1 className="text-2xl font-semibold tracking-tight">
             My documents
           </h1>
-          <ImportButton />
+          <div className="flex gap-2">
+            <ImportButton />
+            <form action={createDocument}>
+              <Button type="submit">
+                <PlusIcon />
+                New document
+              </Button>
+            </form>
+          </div>
         </div>
 
         {docs.length === 0 ? (
@@ -45,7 +50,8 @@ const HomePage = async () => {
             <FileTextIcon className="text-muted-foreground size-8" />
             <p className="font-medium">No documents yet</p>
             <p className="text-muted-foreground max-w-sm text-sm">
-              Import a Word (.docx), Markdown or text file to get started.
+              Create a new document, or import a Word (.docx), Markdown or text
+              file.
             </p>
           </div>
         ) : (
@@ -61,7 +67,7 @@ const HomePage = async () => {
                     {doc.title}
                   </span>
                   <span className="text-muted-foreground shrink-0 text-sm">
-                    {formatUpdated(doc.updatedAt)}
+                    <LocalTime date={doc.updatedAt} />
                   </span>
                 </Link>
               </li>

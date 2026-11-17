@@ -1,41 +1,31 @@
-import { and, eq } from "drizzle-orm";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { cache } from "react";
 
 import { AppHeader } from "@/components/app-header";
-import { DocumentEditor } from "@/components/editor/document-editor";
-import { db } from "@/db";
-import { documents } from "@/db/schema";
+import { DocumentView } from "@/components/editor/document-view";
 import { requireUser } from "@/lib/auth";
-
-const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/iu;
+import { getDocumentAccess } from "@/lib/documents";
 
 /** The document, only if the signed-in user may open it. */
-const loadDocument = cache(async (id: string) => {
-  if (!UUID.test(id)) {
-    return null;
-  }
+const load = cache(async (id: string) => {
   const user = await requireUser();
-  const [doc] = await db
-    .select()
-    .from(documents)
-    .where(and(eq(documents.id, id), eq(documents.ownerId, user.id)))
-    .limit(1);
-  return doc ? { doc, user } : null;
+  const access = await getDocumentAccess(user.id, id);
+  return access ? { ...access, user } : null;
 });
 
 export const generateMetadata = async ({
   params,
 }: PageProps<"/d/[id]">): Promise<Metadata> => {
   const { id } = await params;
-  const result = await loadDocument(id);
+  const result = await load(id);
   return { title: result?.doc.title ?? "Not found" };
 };
 
-const DocumentPage = async ({ params }: PageProps<"/d/[id]">) => {
+const DocumentPage = async ({ params, searchParams }: PageProps<"/d/[id]">) => {
   const { id } = await params;
-  const result = await loadDocument(id);
+  const { new: isNew } = await searchParams;
+  const result = await load(id);
   if (!result) {
     notFound();
   }
@@ -43,15 +33,16 @@ const DocumentPage = async ({ params }: PageProps<"/d/[id]">) => {
 
   return (
     <>
-      <AppHeader user={user}>
-        <span className="text-muted-foreground">/</span>
-        <h1 className="truncate font-medium">{doc.title}</h1>
-      </AppHeader>
-      <main className="mx-auto w-full max-w-3xl flex-1 px-4 pb-24">
-        <p className="bg-muted text-muted-foreground mt-3 rounded-md px-3 py-2 text-sm">
-          Changes aren&apos;t saved yet. Saving arrives in the next update.
-        </p>
-        <DocumentEditor initialContent={doc.content} />
+      <AppHeader user={user} />
+      <main className="mx-auto w-full max-w-3xl flex-1 px-4">
+        <DocumentView
+          content={doc.content}
+          id={doc.id}
+          isNew={isNew === "1"}
+          title={doc.title}
+          updatedAt={doc.updatedAt.toISOString()}
+          version={doc.version}
+        />
       </main>
     </>
   );

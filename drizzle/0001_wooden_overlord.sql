@@ -1,0 +1,2 @@
+ALTER TABLE "documents" ADD COLUMN "updated_by" uuid;--> statement-breakpoint
+ALTER TABLE "documents" ADD CONSTRAINT "documents_updated_by_users_id_fk" FOREIGN KEY ("updated_by") REFERENCES "public"."users"("id") ON DELETE set null ON UPDATE no action;

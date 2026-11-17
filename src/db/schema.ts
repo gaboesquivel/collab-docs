@@ -34,6 +34,10 @@ export const documents = pgTable(
     updatedAt: timestamp("updated_at", { withTimezone: true })
       .notNull()
       .defaultNow(),
+    // Who saved the content last; null until the first save after creation.
+    updatedBy: uuid("updated_by").references(() => users.id, {
+      onDelete: "set null",
+    }),
     // Bumped on every save; a save based on an older version is rejected.
     version: integer("version").notNull().default(1),
   },
