@@ -162,3 +162,50 @@
     content: attr(data-placeholder);
   }
 }
+
+/* Rendered Markdown on the submission page. */
+@layer components {
+  .prose-submission {
+    @apply text-sm leading-6;
+  }
+  .prose-submission > * + * {
+    @apply mt-3;
+  }
+  .prose-submission h2 {
+    @apply mt-6 text-base font-semibold;
+  }
+  .prose-submission h3 {
+    @apply mt-4 font-semibold;
+  }
+  .prose-submission ul {
+    @apply list-disc pl-5;
+  }
+  .prose-submission ol {
+    @apply list-decimal pl-5;
+  }
+  .prose-submission li + li {
+    @apply mt-1;
+  }
+  .prose-submission a {
+    @apply underline underline-offset-4;
+  }
+  .prose-submission code {
+    @apply bg-muted rounded px-1 py-0.5 text-[0.85em];
+  }
+  .prose-submission pre {
+    @apply bg-muted overflow-x-auto rounded-md p-3 text-xs;
+  }
+  .prose-submission pre code {
+    @apply bg-transparent p-0;
+  }
+  .prose-submission table {
+    @apply block w-full overflow-x-auto text-left text-xs;
+  }
+  .prose-submission th,
+  .prose-submission td {
+    @apply border px-2 py-1 align-top;
+  }
+  .prose-submission blockquote {
+    @apply text-muted-foreground border-l-2 pl-3;
+  }
+}

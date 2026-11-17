@@ -2,7 +2,7 @@
 
 A lightweight, browser-based document workspace: write formatted documents, import Word, Markdown or text files, share them with another user, and come back to find everything saved.
 
-**Live:** https://collab-docs-henna.vercel.app
+**Live:** https://collab-docs-henna.vercel.app · **Submission notes:** https://collab-docs-henna.vercel.app/submission
 
 ## Try it
 

@@ -5,9 +5,11 @@ import type { NextRequest } from "next/server";
 // Pages and actions still verify the session and the user's access themselves.
 export const proxy = (request: NextRequest) => {
   const hasSession = request.cookies.has("session");
-  const isLogin = request.nextUrl.pathname === "/login";
+  const { pathname } = request.nextUrl;
+  // Public pages: sign-in, and the submission page for reviewers.
+  const isPublic = pathname === "/login" || pathname === "/submission";
 
-  if (!(hasSession || isLogin)) {
+  if (!(hasSession || isPublic)) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
   return NextResponse.next();

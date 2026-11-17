@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import {
@@ -20,7 +21,7 @@ const LoginPage = async () => {
   }
 
   return (
-    <main className="flex flex-1 items-center justify-center p-4">
+    <main className="flex flex-1 flex-col items-center justify-center gap-4 p-4">
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle>Sign in to Docs</CardTitle>
@@ -37,6 +38,12 @@ const LoginPage = async () => {
           <LoginForm />
         </CardContent>
       </Card>
+      <Link
+        className="text-muted-foreground text-sm underline underline-offset-4"
+        href="/submission"
+      >
+        About this project: submission notes and how it was built
+      </Link>
     </main>
   );
 };

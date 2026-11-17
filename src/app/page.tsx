@@ -107,9 +107,14 @@ const HomePage = async () => {
       <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-10 px-4 py-8">
         <section aria-labelledby="mine" className="flex flex-col gap-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <h1 className="text-2xl font-semibold tracking-tight" id="mine">
-              My documents
-            </h1>
+            <div>
+              <h1 className="text-2xl font-semibold tracking-tight" id="mine">
+                My documents
+              </h1>
+              <p className="text-muted-foreground mt-1 text-sm">
+                Import accepts .docx, .md and .txt files up to 4 MB.
+              </p>
+            </div>
             <div className="flex gap-2">
               <ImportButton />
               <form action={createDocument}>
