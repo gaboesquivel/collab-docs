@@ -1,10 +1,17 @@
 # Session history
 
-The AI-assisted session that shaped and built this project, exported from Claude Code on 2026-11-17.
+The AI-assisted Claude Code sessions behind this project, exported on 2026-11-17, in order. Times are as recorded (UTC).
 
-- [`transcript.md`](transcript.md): readable version. Every user message and assistant reply in full, with tool calls summarised and tool output truncated.
-- [`trace.jsonl`](trace.jsonl): the raw session trace, one JSON event per line (messages, tool calls and results, file edits, API request metadata).
+| # | Session | When (UTC) | What happened |
+| --- | --- | --- | --- |
+| 1 | [Build](1-build/transcript.md) | 19:58 – 22:00 | Product discovery (`/shape` → `PRODUCT.md`, `ARCHITECTURE.md`), phased implementation (import, editing and autosave, sharing, polish), deployment with the Vercel and GitHub CLIs, and later changes. |
+| 2 | [Testing](2-testing/transcript.md) | 22:20 – 22:25 | Came back after a break to update the testing policy and add the one automated test, on document import (`pnpm test`). |
 
-The session runs from product discovery (`/shape` → `PRODUCT.md`, `ARCHITECTURE.md`) through phased implementation (import, editing and autosave, sharing, polish), deployment with the Vercel and GitHub CLIs, and later changes. The export was taken partway through the final request, so the steps that added these files are not in it.
+Each folder has:
 
-Redactions: the user's email is replaced with `<user-email>`, the home directory with `~`, and temporary paths with `<scratchpad>`. No secrets were present: environment values were never printed during the session.
+- `transcript.md`: readable version. Every user message and assistant reply in full, with tool calls summarised and tool output truncated.
+- `trace.jsonl`: the raw session trace, one JSON event per line (messages, tool calls and results, file edits, API request metadata).
+
+Session 1 was exported while it was still running, so it ends partway through the request that added these files.
+
+Redactions: the user's email is replaced with `<user-email>`, the home directory with `~`, and temporary paths with `<scratchpad>`. No secrets were present: environment values were never printed in either session.
