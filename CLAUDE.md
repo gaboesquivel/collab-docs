@@ -3,9 +3,7 @@
 - `PRODUCT.md`: Users, goals, metrics, and scope.
 - `ARCHITECTURE.md`: Technical direction and constraints.
 
-Read relevant documents before substantial changes.
-Surface conflicts with established product direction.
-Update them only when I agree the direction has changed.
+Read relevant documents before substantial changes. Surface conflicts with established product direction. Update them only when I agree the direction has changed.
 
 ## Workflow
 

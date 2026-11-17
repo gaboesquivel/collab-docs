@@ -5,7 +5,7 @@ Technical direction and constraints. Product scope lives in `PRODUCT.md`.
 ## Platform
 
 - **Vercel-first, where it is the obvious choice:** Next.js (App Router) on Vercel Hobby, deployed from `main`, so there is always a live URL. Choose each piece on its merits, not because of the brand.
-- **Postgres on Neon Free**, added through the Vercel Marketplace. Vercel's own Postgres product no longer exists. Stay within both free tiers.
+- **Postgres on Neon Free**, added through the Vercel Marketplace. Vercel's own Postgres product no longer exists. Stay within both free tiers. Local development uses the same database as production (pulled with `vercel env pull`), so anything created locally is visible on the live site.
 - **UI:** shadcn/ui and Geist (both MIT).
 - **Only free, open-source libraries.** Use the Tiptap core (MIT) for the editor. Do not use Tiptap Pro extensions (their DOCX import/export and hosted collaboration are paid) or BlockNote's XL packages (GPL-3.0 or a paid commercial license).
 
@@ -23,11 +23,11 @@ Vercel Functions now support WebSockets (newly; the docs call it beta). Connecti
 
 - Accounts come only from a seed script; there is no sign-up route. Each demo account has a password, stored hashed, so sign-in and per-document access mean something on a public URL.
 - Every read and write of a document checks on the server that the user is the owner or has been shared it. Hiding a document in the UI is not access control.
-- A share is a permission record (document, user, role). There are no link-based or public tokens.
+- A share is a permission record (document, user); every share grants edit access. There are no link-based or public tokens.
 
 ## Import
 
 - Convert uploads on the server, in memory, into editor JSON. Do not store the original file (no Blob storage needed).
-- .docx via mammoth (believed to be BSD-licensed; confirm before adding), .md via a Markdown parser, .txt as paragraphs. Sanitise any intermediate HTML before it reaches the editor.
-- Cap uploads at about 4 MB. Vercel Functions limit request bodies to roughly 4.5 MB (from memory; verify), and the user should get a clear error instead of a platform failure.
+- .docx via mammoth (BSD-2-Clause), .md via marked, .txt as paragraphs. All three become HTML, which is then parsed against the editor's own schema. That parse is the sanitiser: any element or attribute the schema does not define (scripts, links, styles) is dropped, keeping only its text.
+- Cap uploads at 4 MB, checked in the browser and on the server. Vercel Functions limit request bodies to about 4.5 MB and Server Actions default to 1 MB, so the Server Action limit is raised just enough; the user gets a clear error instead of a platform failure.
 - Report which content the editor could not represent and therefore dropped.
