@@ -4359,3 +4359,154 @@ push everything to main
 ### 🤖 Claude
 
 Nothing to push. The working tree is clean and `main` matches `origin/main`. The latest commit there is 7ce1f74, "Create demo accounts on first sign-in", and it's already deployed at https://collab-docs-henna.vercel.app.
+
+---
+
+## 👤 User
+
+Hey, I need a Hanov prompt so that GPT Astra can test it out on Vercel.
+
+### 🤖 Claude
+
+I read "Hanov prompt" as a handoff prompt. Here it is, ready to paste into GPT Astra. It assumes Astra can drive a browser and upload files it creates.
+
+```text
+You are QA-testing a web app deployed on Vercel. Test it like a careful human user, in a real browser, and report what you find. Don't change any code. You only use the live site.
+
+APP
+- URL: https://collab-docs-henna.vercel.app
+- What it is: a lightweight document workspace. Users create, rename and edit formatted documents, import files, share documents with other users, and come back later to find everything saved.
+- Sign-in: any email ending in @demo.test. The first sign-in with a new address creates the account with whatever password you type; after that, the same password is required. Ready-made accounts: alice@demo.test, bob@demo.test, carol@demo.test, all with password demo1234.
+- To keep your data separate, create your own accounts, e.g. qa-owner-<random>@demo.test and qa-editor-<random>@demo.test. The database is shared with other testers.
+
+INTENDED BEHAVIOUR (what "correct" means)
+- Formatting: bold, italic, underline, headings 1–3, bulleted and numbered lists. Nothing else (no links, tables, images, colours, code blocks) by design.
+- Autosave about 1 second after typing stops. The status next to the title shows Edited → Saving… → Saved <time>. Cmd/Ctrl+S saves immediately. Switching tabs saves. Leaving with unsaved changes triggers the browser's "leave site?" prompt.
+- Rename by clicking the title. Enter or clicking away saves; Escape cancels.
+- Import: .docx, .md, .markdown, .txt up to 4 MB create a NEW document named after the file and open it. Supported formatting is kept. Images are removed and tables become plain text, and a toast says so. PDF and .doc files are refused with a clear message. Files over 4 MB are refused.
+- Sharing: only the owner sees a Share button. The owner adds people by email (the account must already exist), sees who has access, and can remove them. Shared users can open, edit and rename, but not share. The home page has "My documents" and "Shared with me".
+- No silent overwrites: if someone else saved after you opened a document, your next save is refused. The editor locks and a red notice names who edited it, with "Copy my text" and "Reload" buttons.
+- Live co-editing (seeing each other's cursors or typing in real time) is deliberately NOT supported. Don't report its absence as a bug.
+
+TEST PLAN
+Create your own test files first: a .docx containing headings, bold/italic/underline text, a bulleted list, a numbered list, a table and an image; a .md file with the same, plus a <script> tag and a link; a plain .txt file; any .pdf; and a file over 4 MB.
+
+1. Sign-in
+   - New @demo.test address with any password → account created, lands on the home page with the name taken from the email.
+   - Sign out, then sign in to the same address with a different password → refused with a clear message. Correct password → works.
+   - A non-demo address (e.g. test@gmail.com) → refused.
+   - Signed out, open a document URL directly → redirected to sign-in.
+2. Core path (most important)
+   - As the owner: import the .docx, check formatting and the removal toast, edit it, wait for "Saved", refresh, and confirm the edits persist.
+   - Share it with your editor account. Sign in as the editor, find it under "Shared with me", edit it, and wait for "Saved".
+   - Sign back in as the owner and confirm the editor's changes are there, and the home page shows who edited it last.
+3. Documents: create a new document; rename it (Enter, click away, Escape, empty title → "Untitled"); use every toolbar button and its keyboard shortcut; check the tooltips.
+4. Import edge cases: .md (the script and link should be gone, their text kept), .txt, .pdf (refused), over 4 MB (refused).
+5. Saving: type and watch the status; Cmd/Ctrl+S; type and immediately try to close the tab (should warn).
+6. Conflicts: open the same document in two tabs (or as owner and editor). Edit in tab A and wait for Saved. Then edit in tab B → B should lock with the notice. Try "Copy my text" and "Reload".
+7. Sharing edge cases: share with yourself, an unknown address, someone who already has access, and a non-demo address. Remove access and confirm the removed user can no longer open the document (they should see "Document not found"). As the editor, confirm there's no Share button.
+8. Access control: as a third account with no access, paste the document URL → "Document not found", with no content leaked.
+9. Layout: repeat the core screens at phone width (~375 px). Check for overflow, overlapping controls and unreadable text.
+
+REPORT FORMAT
+Start with a one-line verdict on whether the core path (step 2) works end to end. Then list the issues, most severe first. For each issue give:
+- Title
+- Severity: blocker / major / minor / polish
+- Steps to reproduce (exact accounts, files and clicks)
+- Expected result vs actual result
+- Screenshot or exact error text if available
+Then list what you tested that worked, and anything you couldn't test and why. Keep facts separate from opinions; put UX suggestions in their own section at the end.
+```
+
+If you meant something else by "Hanov", tell me and I'll adjust it.
+
+---
+
+## 👤 User
+
+is the repo public ?
+
+- **Tool** `Bash` — description: Check the GitHub repo's visibility
+
+<details><summary>result</summary>
+
+```text
+{"url":"https://github.com/gaboesquivel/collab-docs","visibility":"PRIVATE"}
+```
+
+</details>
+
+### 🤖 Claude
+
+No, [gaboesquivel/collab-docs](https://github.com/gaboesquivel/collab-docs) is **private**. The live app at https://collab-docs-henna.vercel.app is public, so GPT Astra can test it without access to the repo.
+
+If you want to make the repo public (for example, for the Ajaia reviewers), I can run it once you confirm. Before that, it's worth knowing what a public repo would expose:
+
+- The full commit history.
+- The docs: PRODUCT.md and ARCHITECTURE.md.
+- The demo password `demo1234`, which is already public on the sign-in page.
+
+No secrets are committed: `.env.local` and `.vercel` are gitignored.
+
+---
+
+## 👤 User
+
+make it public
+
+- **Tool** `Bash` — description: Scan git history for env files or secrets before publishing
+
+<details><summary>result</summary>
+
+```text
+0
+```
+
+</details>
+
+### 🤖 Claude
+
+History is clean: no env files or credentials in any commit. Making the repo public now.
+
+- **Tool** `Bash` — description: Make the GitHub repo public and confirm
+
+<details><summary>result</summary>
+
+```text
+{"url":"https://github.com/gaboesquivel/collab-docs","visibility":"PUBLIC"}
+```
+
+</details>
+
+### 🤖 Claude
+
+[gaboesquivel/collab-docs](https://github.com/gaboesquivel/collab-docs) is now **public**.
+
+Before switching it, I checked the full git history: no env files and no database URLs or session secrets were ever committed. The only credential in the repo is the public demo password `demo1234`, which is also on the sign-in page.
+
+---
+
+## 👤 User
+
+Hey, I need the history traces and the transcript from our conversation. Can you download it and add it to the repo on a docs folder?
+
+- **Tool** `ToolSearch` — query: select:mcp__ccd_session_mgmt__export_transcript,mcp__ccd_session_mgmt__get_session
+
+<details><summary>result</summary>
+
+```text
+[tool_reference]
+[tool_reference]
+```
+
+</details>
+
+- **Tool** `mcp__ccd_turn__update_plan` — {"items": [{"content": "Export this session's transcript and traces", "status": "in_progress"}, {"content": "Review exports for secrets and private data", "status": "pending"}, {"content": "Add to docs folder, commit and push", "status": "pending"}], "scope": "new_task"}
+
+<details><summary>result</summary>
+
+```text
+Plan shown (3 steps).
+```
+
+</details>
