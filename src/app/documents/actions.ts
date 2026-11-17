@@ -7,9 +7,10 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { db } from "@/db";
-import { documents, users } from "@/db/schema";
+import { documents, shares, users } from "@/db/schema";
 import { getCurrentUser, requireUser } from "@/lib/auth";
 import { getDocumentAccess } from "@/lib/documents";
+import type { Person } from "@/lib/documents";
 import { editorExtensions } from "@/lib/editor/extensions";
 import { convertUpload, ImportError } from "@/lib/import/convert";
 
@@ -163,4 +164,70 @@ export const renameDocument = async (
     .where(eq(documents.id, id));
   revalidatePath("/");
   return { ok: true, title };
+};
+
+// Share
+
+export type ShareResult =
+  | { ok: true; person: Person }
+  | { ok: false; error: string };
+
+/** Owner only: give another existing user edit access. */
+export const shareDocument = async (
+  id: string,
+  rawEmail: string
+): Promise<ShareResult> => {
+  const user = await getCurrentUser();
+  if (!user) {
+    return { error: "You've been signed out. Sign in again.", ok: false };
+  }
+  const access = await getDocumentAccess(user.id, id);
+  if (access?.role !== "owner") {
+    return { error: "Only the owner can share this document.", ok: false };
+  }
+
+  const email = rawEmail.trim().toLowerCase();
+  if (!email) {
+    return { error: "Enter an email address.", ok: false };
+  }
+  if (email === user.email) {
+    return { error: "You already own this document.", ok: false };
+  }
+  const [person] = await db
+    .select({ email: users.email, id: users.id, name: users.name })
+    .from(users)
+    .where(eq(users.email, email))
+    .limit(1);
+  if (!person) {
+    return { error: `There's no account for ${email}.`, ok: false };
+  }
+
+  const inserted = await db
+    .insert(shares)
+    .values({ documentId: id, userId: person.id })
+    .onConflictDoNothing()
+    .returning({ userId: shares.userId });
+  if (inserted.length === 0) {
+    return { error: `${person.name} already has access.`, ok: false };
+  }
+  return { ok: true, person };
+};
+
+/** Owner only: take access away again. */
+export const unshareDocument = async (
+  id: string,
+  userId: string
+): Promise<{ ok: boolean; error?: string }> => {
+  const user = await getCurrentUser();
+  if (!user) {
+    return { error: "You've been signed out. Sign in again.", ok: false };
+  }
+  const access = await getDocumentAccess(user.id, id);
+  if (access?.role !== "owner") {
+    return { error: "Only the owner can change who has access.", ok: false };
+  }
+  await db
+    .delete(shares)
+    .where(and(eq(shares.documentId, id), eq(shares.userId, userId)));
+  return { ok: true };
 };

@@ -4,6 +4,7 @@ import {
   integer,
   jsonb,
   pgTable,
+  primaryKey,
   text,
   timestamp,
   uuid,
@@ -42,6 +43,26 @@ export const documents = pgTable(
     version: integer("version").notNull().default(1),
   },
   (table) => [index("documents_owner_idx").on(table.ownerId)]
+);
+
+/** A user other than the owner who may open and edit a document. */
+export const shares = pgTable(
+  "shares",
+  {
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    documentId: uuid("document_id")
+      .notNull()
+      .references(() => documents.id, { onDelete: "cascade" }),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+  },
+  (table) => [
+    primaryKey({ columns: [table.documentId, table.userId] }),
+    index("shares_user_idx").on(table.userId),
+  ]
 );
 
 export type User = typeof users.$inferSelect;
