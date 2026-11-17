@@ -45,6 +45,7 @@ pnpm dev
 ```
 
 - `pnpm check` / `pnpm fix`: lint and format (Oxlint + Oxfmt via Ultracite).
+- `pnpm test`: automated test for document import (Vitest). It converts sample .docx, .md and .txt files, checks formatting, sanitising and the "removed" notices, and checks refused files. No database or sign-in needed.
 - `pnpm db:generate`: create a migration after changing `src/db/schema.ts`.
 
 Local development uses the same Neon database as the live site. Every push to `main` deploys to production.

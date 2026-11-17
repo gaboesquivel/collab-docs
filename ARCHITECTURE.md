@@ -31,3 +31,4 @@ Vercel Functions now support WebSockets (newly; the docs call it beta). Connecti
 - .docx via mammoth (BSD-2-Clause), .md via marked, .txt as paragraphs. All three become HTML, which is then parsed against the editor's own schema. That parse is the sanitiser: any element or attribute the schema does not define (scripts, links, styles) is dropped, keeping only its text.
 - Cap uploads at 4 MB, checked in the browser and on the server. Vercel Functions limit request bodies to about 4.5 MB and Server Actions default to 1 MB, so the Server Action limit is raised just enough; the user gets a clear error instead of a platform failure.
 - Report which content the editor could not represent and therefore dropped.
+- Conversion is covered by an automated test (`src/lib/import/convert.test.ts`), which also checks every import result passes the same schema check as a save.
