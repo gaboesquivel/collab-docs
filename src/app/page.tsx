@@ -49,7 +49,7 @@ const DocumentList = ({ rows, me }: { rows: Row[]; me: string }) => (
               {doc.detail}
             </span>
           ) : null}
-          <span className="text-muted-foreground w-36 shrink-0 text-right text-sm">
+          <span className="text-muted-foreground shrink-0 text-right text-sm sm:w-40">
             {doc.editedBy && doc.editedBy !== me ? `${doc.editedBy}, ` : ""}
             <LocalTime date={doc.updatedAt} />
           </span>

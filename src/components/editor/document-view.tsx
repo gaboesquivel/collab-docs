@@ -79,15 +79,19 @@ export const DocumentView = ({
 
   return (
     <div className="flex flex-col">
-      <div className="flex items-center gap-3 pt-6 pb-2">
-        <TitleInput
-          autoFocus={isNew}
-          documentId={id}
-          initialTitle={title}
-          onDone={() => editor?.commands.focus("start")}
-        />
-        <SaveStatus onRetry={retry} status={status} />
-        {actions}
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-6 pb-2">
+        <div className="flex min-w-0 basis-full sm:flex-1 sm:basis-0">
+          <TitleInput
+            autoFocus={isNew}
+            documentId={id}
+            initialTitle={title}
+            onDone={() => editor?.commands.focus("start")}
+          />
+        </div>
+        <div className="flex flex-1 items-center justify-end gap-3 sm:flex-none">
+          <SaveStatus onRetry={retry} status={status} />
+          {actions}
+        </div>
       </div>
 
       {status.kind === "conflict" ? (
