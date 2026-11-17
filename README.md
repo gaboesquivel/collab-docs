@@ -25,7 +25,7 @@ The path that shows everything:
 
 ## Decisions
 
-The product direction, scope and non-goals are in [PRODUCT.md](PRODUCT.md), and the technical constraints in [ARCHITECTURE.md](ARCHITECTURE.md). In short:
+The product direction, scope and non-goals are in [PRODUCT.md](PRODUCT.md), and the technical constraints in [ARCHITECTURE.md](ARCHITECTURE.md). The full AI-assisted session that produced them and the code is in [docs/session](docs/session/README.md). In short:
 
 - **Shared access, not live co-editing.** Real-time editing was the riskiest feature and the brief doesn't need it; version checks prevent lost edits instead.
 - **Import converts and discards the original**, like opening a Word file in Google Docs. Conversion goes through the editor's own schema, which also strips anything unsafe.
