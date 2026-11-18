@@ -200,38 +200,6 @@ const REQUIREMENTS: {
   },
 ];
 
-const WORKS = [
-  "Sign in with any @demo.test email; demo accounts are ready.",
-  "Create, rename, edit and reopen documents with rich text.",
-  "Autosave with visible status, and protection against overwriting someone else's edit.",
-  "Import .docx, .md and .txt into a new document, with a note on anything removed.",
-  "Share with another user; they edit it from “Shared with me”; the owner sees their changes.",
-];
-
-const LEFT_OUT = [
-  "Real-time co-editing and live cursors: one person edits at a time, by design.",
-  "A read-only role: every share grants edit access.",
-  "Images and tables on import: removed or flattened, and the user is told.",
-  "Browser-level automated tests: the core path is checked by hand.",
-  "Separate development database: local development uses the production database.",
-];
-
-const NEXT = [
-  "Presence indicator (“Bob is viewing”) with light polling: the first step towards collaboration.",
-  "Version history from the saved versions the app already counts, with restore.",
-  "One end-to-end browser test of the share-and-edit path on preview deploys.",
-  "Keep tables on import, with the matching Tiptap extension.",
-  "A Neon branch for development so local work never touches production data.",
-];
-
-const List = ({ items }: { items: string[] }) => (
-  <ul className="flex list-disc flex-col gap-1.5 pl-5 text-sm">
-    {items.map((item) => (
-      <li key={item}>{item}</li>
-    ))}
-  </ul>
-);
-
 const SubmissionPage = () => {
   const sum = totals();
   const video = videoUrl();
@@ -244,13 +212,15 @@ const SubmissionPage = () => {
         <p className="text-muted-foreground text-sm">
           Ajaia · AI-native full stack assignment
         </p>
-        <h1 className="text-3xl font-semibold tracking-tight">
-          collab-docs: a lightweight collaborative document editor
-        </h1>
-        <p className="text-muted-foreground">
-          Write formatted documents, import Word, Markdown or text files, share
-          them with another user, and come back to find everything saved.
-        </p>
+        <h1 className="text-3xl font-semibold tracking-tight">Collab Docs</h1>
+        <div id="tldr">
+          <h2 className="font-semibold">TL;DR</h2>
+          <p>
+            Import a Word, Markdown or text file and start editing. Collab Docs
+            preserves supported formatting, autosaves changes and lets a
+            colleague edit the same document. Today, collaborators take turns.
+          </p>
+        </div>
         <div className="flex flex-wrap gap-2">
           <LinkButton
             href={LIVE}
@@ -276,163 +246,104 @@ const SubmissionPage = () => {
             </span>
           )}
         </div>
-        <div className="bg-muted/60 rounded-xl p-4 text-sm">
-          <p className="font-medium">Test accounts</p>
-          <p className="text-muted-foreground mt-1">
-            <code>alice@demo.test</code>, <code>bob@demo.test</code> and{" "}
-            <code>carol@demo.test</code>, password <code>demo1234</code>. Any
-            other <code>@demo.test</code> email creates its account on first
-            sign-in with the password you type.
-          </p>
-        </div>
       </header>
 
-      <Section id="tldr" title="TL;DR">
-        <div className="grid gap-6 sm:grid-cols-3">
-          <div className="flex flex-col gap-2">
-            <h3 className="font-medium">Works end to end</h3>
-            <List items={WORKS} />
-          </div>
-          <div className="flex flex-col gap-2">
-            <h3 className="font-medium">Left out on purpose</h3>
-            <List items={LEFT_OUT} />
-          </div>
-          <div className="flex flex-col gap-2">
-            <h3 className="font-medium">Next 2–4 hours</h3>
-            <List items={NEXT} />
-          </div>
-        </div>
-      </Section>
-
-      <Section id="requirements" title="Requirements checklist">
-        <div className="overflow-hidden rounded-xl border">
-          <table className="w-full text-left text-sm">
-            <thead className="bg-muted/60 text-muted-foreground text-xs">
-              <tr>
-                <th className="px-3 py-2 font-medium" scope="col">
-                  Requirement
-                </th>
-                <th className="px-3 py-2 font-medium" scope="col">
-                  How it&apos;s met
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y">
-              {REQUIREMENTS.map((row) => (
-                <tr key={row.item}>
-                  <td className="w-2/5 px-3 py-2.5 align-top">
-                    <span className="flex items-start gap-2">
-                      {row.status === "done" ? (
-                        <CheckCircle2Icon
-                          aria-label="Done"
-                          className="mt-0.5 size-4 shrink-0 text-green-700"
-                        />
-                      ) : (
-                        <CircleDashedIcon
-                          aria-label="Pending"
-                          className="text-muted-foreground mt-0.5 size-4 shrink-0"
-                        />
-                      )}
-                      <span>
-                        <span className="font-medium">{row.item}</span>
-                        <span className="text-muted-foreground block text-xs">
-                          {row.area}
-                          {row.status === "pending" ? " · pending" : ""}
-                        </span>
-                      </span>
-                    </span>
-                  </td>
-                  <td className="text-muted-foreground px-3 py-2.5 align-top">
-                    {row.how}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </Section>
-
-      <Section id="review" title="How to review sharing">
+      <Section id="review" title="Try document import">
         <ol className="flex list-decimal flex-col gap-1.5 pl-5 text-sm">
           <li>
-            Sign in as <code>alice@demo.test</code> and import a .docx, or
-            create a document and format some text.
+            Sign in as <code>alice@demo.test</code> with <code>demo1234</code>.
+            Import a .docx, .md or .txt file up to 4 MB.
           </li>
           <li>
-            Click <strong>Share</strong> and add <code>bob@demo.test</code>.
+            Rename the draft, edit a heading or list, and wait for{" "}
+            <strong>Saved</strong>. Reopen it to check the formatting.
           </li>
           <li>
-            Sign out, sign in as Bob, open it from{" "}
-            <strong>Shared with me</strong> and edit it.
-          </li>
-          <li>
-            Sign back in as Alice: the document shows Bob&apos;s edit and the
-            list shows who edited it last.
+            Share it with <code>bob@demo.test</code>. Sign in as Bob with the
+            same password, edit it from <strong>Shared with me</strong>, and
+            wait for <strong>Saved</strong>. Alice will see the edit when she
+            reopens it.
           </li>
         </ol>
-        <p className="text-muted-foreground text-sm">
-          To see conflict protection, open the same document in two tabs, type
-          in one until it says Saved, then type in the other.
+      </Section>
+
+      <Section id="decisions" title="Product and engineering decisions">
+        <p>
+          <strong>Import came first.</strong> An attachment would still leave
+          the writer with a file to open elsewhere. Mammoth converts Word files
+          into editable content. Tiptap keeps supported formatting, and the app
+          tells the writer when an image was removed or a table flattened.
+        </p>
+        <p>
+          <strong>Sharing grants edit access.</strong> Named accounts make
+          ownership visible. Postgres stores the document and its permissions.
+          Each save checks the version so an older tab can’t silently overwrite
+          a colleague’s work.
         </p>
       </Section>
 
-      <Section id="built" title="How it was built">
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <Tile
-            caption={`${SESSIONS.length} sessions; the AI was working for ${formatDuration(sum.agentMs)} of it`}
-            label="Time in sessions"
-            value={formatDuration(sum.wallMs)}
-          />
-          <Tile
-            caption={`Across ${sum.prompts} prompts`}
-            label="Output tokens"
-            value={formatCompact(sum.outputTokens)}
-          />
-          <Tile
-            caption={`Estimate at Claude Opus 5.5 API list prices (${PRICES.asOf}); built on a Claude Code plan`}
-            label="API-equivalent cost"
-            value={`≈ $${Math.round(sum.cost)}`}
-          />
-          <Tile
-            caption="Each push to main deployed to production"
-            label="Commits shipped"
-            value={String(sum.commits)}
-          />
-        </div>
-        <div className="rounded-xl border p-4">
-          <h3 className="mb-4 font-medium">Session timeline</h3>
-          <SessionTimeline />
-        </div>
-        <div className="rounded-xl border p-4">
-          <h3 className="mb-4 font-medium">What the AI did: tool calls</h3>
-          <ToolMix />
-        </div>
-      </Section>
-
-      <Section id="ai" title="AI workflow note">
-        <div
-          className="prose-submission"
-          // Trusted Markdown from this repository.
-          // oxlint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: aiWorkflow }}
-        />
-      </Section>
-
-      <Section id="architecture" title="Architecture note">
-        <div
-          className="prose-submission"
-          // Trusted Markdown from this repository.
-          // oxlint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: architecture }}
-        />
-      </Section>
-
-      <Section id="sessions" title="Session explorer">
-        <p className="text-muted-foreground text-sm">
-          Every request from both sessions. Tagged cards are where I changed the
-          direction the AI proposed. Open a card for the full prompt and reply.
+      <Section id="built" title="Recorded Claude Code sessions">
+        <p className="text-sm">
+          I used /shape with Claude Code to define the scope in PRODUCT.md.
+          Claude proposed open registration. I chose demo accounts so reviewers
+          could try sharing immediately. I checked the flow by hand, then caught
+          a missed requirement and added 11 import test cases in the second
+          session.
         </p>
-        <SessionExplorer />
+        <details>
+          <summary className="cursor-pointer text-sm font-medium">
+            Explore the build and testing sessions
+          </summary>
+          <div className="mt-4 flex flex-col gap-8">
+            <SessionExplorer />
+            <Section id="metrics" title="Session metrics">
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                <Tile
+                  caption={`${SESSIONS.length} sessions only. The AI was working for ${formatDuration(sum.agentMs)} of it`}
+                  label="Recorded session time"
+                  value={formatDuration(sum.wallMs)}
+                />
+                <Tile
+                  caption={`Across ${sum.prompts} prompts`}
+                  label="Output tokens"
+                  value={formatCompact(sum.outputTokens)}
+                />
+                <Tile
+                  caption={`Estimate at Claude Opus 5.5 API list prices (${PRICES.asOf}); built on a Claude Code plan`}
+                  label="API-equivalent cost"
+                  value={`≈ $${Math.round(sum.cost)}`}
+                />
+                <Tile
+                  caption="Each push to main deployed to production"
+                  label="Commits shipped"
+                  value={String(sum.commits)}
+                />
+              </div>
+              <div className="rounded-xl border p-4">
+                <h3 className="mb-4 font-medium">Session timeline</h3>
+                <SessionTimeline />
+              </div>
+              <div className="rounded-xl border p-4">
+                <h3 className="mb-4 font-medium">
+                  What the AI did: tool calls
+                </h3>
+                <ToolMix />
+              </div>
+            </Section>
+          </div>
+        </details>
+      </Section>
+
+      <Section id="next" title="Next 2–4 hours">
+        <p>
+          I’d prototype live co-editing in one shared document. I’d focus on
+          whether two writers can see each other’s cursor, type in the same
+          paragraph and reopen it with both edits intact.
+        </p>
+        <p className="text-muted-foreground text-sm">
+          After that, I’d explore an MCP server so an agent could open and edit
+          documents using the same permissions as its user.
+        </p>
       </Section>
 
       <Section id="deliverables" title="Deliverables">
@@ -459,6 +370,78 @@ const SubmissionPage = () => {
           ))}
         </ul>
       </Section>
+      <details className="flex flex-col">
+        <summary className="cursor-pointer font-medium">
+          Requirements and full notes
+        </summary>
+        <div className="mt-6 flex flex-col gap-10">
+          <Section id="requirements" title="Requirements checklist">
+            <div className="overflow-hidden rounded-xl border">
+              <table className="w-full text-left text-sm">
+                <thead className="bg-muted/60 text-muted-foreground text-xs">
+                  <tr>
+                    <th className="px-3 py-2 font-medium" scope="col">
+                      Requirement
+                    </th>
+                    <th className="px-3 py-2 font-medium" scope="col">
+                      How it&apos;s met
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y">
+                  {REQUIREMENTS.map((row) => (
+                    <tr key={row.item}>
+                      <td className="w-2/5 px-3 py-2.5 align-top">
+                        <span className="flex items-start gap-2">
+                          {row.status === "done" ? (
+                            <CheckCircle2Icon
+                              aria-label="Done"
+                              className="mt-0.5 size-4 shrink-0 text-green-700"
+                            />
+                          ) : (
+                            <CircleDashedIcon
+                              aria-label="Pending"
+                              className="text-muted-foreground mt-0.5 size-4 shrink-0"
+                            />
+                          )}
+                          <span>
+                            <span className="font-medium">{row.item}</span>
+                            <span className="text-muted-foreground block text-xs">
+                              {row.area}
+                              {row.status === "pending" ? " · pending" : ""}
+                            </span>
+                          </span>
+                        </span>
+                      </td>
+                      <td className="text-muted-foreground px-3 py-2.5 align-top">
+                        {row.how}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </Section>
+
+          <Section id="ai" title="AI workflow note">
+            <div
+              className="prose-submission"
+              // Trusted Markdown from this repository.
+              // oxlint-disable-next-line react/no-danger
+              dangerouslySetInnerHTML={{ __html: aiWorkflow }}
+            />
+          </Section>
+
+          <Section id="architecture" title="Architecture note">
+            <div
+              className="prose-submission"
+              // Trusted Markdown from this repository.
+              // oxlint-disable-next-line react/no-danger
+              dangerouslySetInnerHTML={{ __html: architecture }}
+            />
+          </Section>
+        </div>
+      </details>
     </main>
   );
 };

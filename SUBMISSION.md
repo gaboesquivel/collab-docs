@@ -1,6 +1,6 @@
 # Submission: collab-docs
 
-**Start here:** https://collab-docs-henna.vercel.app/submission has everything below on one page: what works, the requirements checklist, the notes, and how the work was done with AI.
+**Start here:** https://collab-docs-henna.vercel.app/submission has everything below on one page: a TL;DR, how to try import and sharing, the key decisions, the recorded AI sessions, next steps, the requirements checklist and the notes.
 
 ## Links
 
@@ -28,5 +28,5 @@ Any email ending in `@demo.test` signs in; the first password used becomes that 
 ## Status
 
 - **Working end to end:** create, rename, edit and reopen documents with rich text; autosave with conflict protection; .docx/.md/.txt import; sharing with owned and shared lists; persistence across sessions.
-- **Incomplete or deliberately left out:** real-time co-editing, a read-only role, keeping images and tables on import, and browser-level automated tests. Reasons are in `PRODUCT.md` and on the submission page.
+- **Incomplete or deliberately left out:** real-time co-editing, a read-only role, keeping images and tables on import, and browser-level automated tests. Reasons are in `PRODUCT.md` and `ARCHITECTURE.md`.
 - **Next 2–4 hours:** listed on the submission page.
