@@ -194,9 +194,16 @@ const REQUIREMENTS: {
   },
   {
     area: "Notes",
-    how: "VIDEO_URL.txt",
+    how: (
+      <a
+        className="underline underline-offset-4"
+        href="https://www.loom.com/share/007ea9fdc1104274b3c8697692293ca5"
+      >
+        Walkthrough on Loom
+      </a>
+    ),
     item: "3–5 minute walkthrough video",
-    status: "pending",
+    status: "done",
   },
 ];
 

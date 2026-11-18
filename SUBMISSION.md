@@ -6,7 +6,7 @@
 
 - **Live app:** https://collab-docs-henna.vercel.app
 - **Source:** https://github.com/gaboesquivel/collab-docs
-- **Walkthrough video:** see [`VIDEO_URL.txt`](VIDEO_URL.txt)
+- **Walkthrough video:** https://www.loom.com/share/007ea9fdc1104274b3c8697692293ca5
 
 ## Test accounts
 
